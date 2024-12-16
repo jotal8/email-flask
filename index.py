@@ -27,7 +27,8 @@ def run():
 
     if(verify["valid"]):
       send_email_service = SendEmailService()
-      data["message"] = send_email_service.send()
+      params = request.json
+      data["message"] = send_email_service.send(params.get('correo'),params.get('password'))
       statusCode = 200
       data["success"] = True
     else:

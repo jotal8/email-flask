@@ -5,28 +5,28 @@ from flask_mail import Mail,Message
 
 mailApp = Flask(__name__)
 
+load_dotenv()
+
 mail= Mail(mailApp)
 
-mailApp.config['MAIL_SERVER'] = 'smtp.gmail.com'
-mailApp.config['MAIL_PORT'] = 587
-mailApp.config['MAIL_USERNAME'] = 'jotal8@gmail.com'
-mailApp.config['MAIL_PASSWORD'] = 'huct pejy ohiv cjzw'
+mailApp.config['MAIL_SERVER'] = os.getenv('SERVER')
+mailApp.config['MAIL_PORT'] = os.getenv('PORT')
+mailApp.config['MAIL_USERNAME'] = os.getenv('CORREO')
+mailApp.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASSWORD')
 mailApp.config['MAIL_USE_TLS'] = True
-
-load_dotenv()
 
 class SendEmailService:
   
     def __init__(self):
       self.password = os.getenv('EMAIL_PASSWORD')
 
-    def send(self):
-        email_sender = 'jotal8@gmail.com'
-        email_receiver = 'julian.otalvaro@cerok.com'
+    def send(self, correo, password):
+        email_sender = os.getenv('CORREO')
+        email_receiver = correo
         subject = 'Bienvenido al sistema de empleados!'
-        body = """  
-            Se ha creado una cuenta nueva en el sistema de empleados, tu password de ingreso es: XXXXXX 
-        """
+        body = f"""  
+              Se ha creado una cuenta nueva en el sistema de empleados, tu password de ingreso es: {password} 
+          """
 
         msg = Message(subject, sender=email_sender, recipients=[email_receiver])
         msg.body = body
